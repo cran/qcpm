@@ -1,11 +1,11 @@
 #' @title Measurement model reliability and internal consistence
 #'
 #' @description
-#' The function \code{reliability} returns the classicial indices used in PLS-PM to assess 
-#' the reliability and internal consistence of the measurement models (Hair et al. 2019). In 
-#' order it provides: Cronbach's alpha, Dillon-Goldstein's rho, the Dijkstra-Henseler rho and 
-#' first and second eigenvalue of the indicators' correlation matrix. The function also 
-#' returns the mode of measurement (A  or B), and the number of indicators for each block.
+#' \code{reliability} returns the classical indices used in PLS-PM to assess 
+#' the reliability and internal consistence of the measurement model (Hair et al., 2019). 
+#' In order it provides: Cronbach's alpha, Dillon-Goldstein's rho, the Dijkstra-Henseler rho, and 
+#' first and second eigenvalue of the correlation matrix of the manifest variables. The function 
+#' also returns the outer mode (A or B) and the number of manifest variables for each block.
 #' 
 #' @details
 #' The function only returns Dijkstra-Henseler rho values for quantile 0.5. When mode 
@@ -13,22 +13,23 @@
 #' Cronbach's alpha, and Dillon-Goldstein's rho are not calculated.
 #' 
 #'
-#' @param qcpm is an  is an object of class \code{qcpm}
+#' @param qcpm is an object of class \code{qcpm}
 #' 
-#' @return \item{}{A table containing for each block the mode of measurement A  or B, 
-#' and the number of indicators, Cronbach's alpha, Dillon-Goldstein's rho, Dijkstra-Henseler rho, 
-#' and first and second eigenvalue of the indicators' correlation matrix}
+#' @return A table containing, for each block, the outer mode (A or B), 
+#' the number of manifest variables, Cronbach's alpha, Dillon-Goldstein's rho, 
+#' Dijkstra-Henseler rho, and first and second eigenvalue of the manifest variable 
+#' correlation matrix.
 #' 
 #' 
 #' @author Cristina Davino, Pasquale Dolce, Giuseppe Lamberti, Domenico Vistocco
 #'
 #' 
 #' 
-#' @references Hair, J.F., Risher, J.J., Sarstedt, M., Ringle, C. M. (2019). When to 
-#' use and how to report the results of PLS-SEM. \emph{European business review}, \bold{31(1)}, pp. 2-24.
-#' doi: 10.1108/EBR-11-2018-0203
+#' @references Hair, J.F., Risher, J.J., Sarstedt, M. and Ringle, C.M. (2019). When to 
+#' use and how to report the results of PLS-SEM. \emph{European Business Review}, \bold{31 (1)},
+#'  pp. 2--24, doi: 10.1108/EBR-11-2018-0203
 #' 
-#' @references Sanchez, G. (2013) PLS Path Modeling with R Trowchez Editions. Berkeley, 2013. 
+#' @references Sanchez, G. (2013). PLS Path Modeling with R Trowchez Editions. Berkeley, 2013. 
 #' Available at \url{https://www.gastonsanchez.com/PLS_Path_Modeling_with_R.pdf}.
 #' 
 #' @seealso \code{\link{qcpm}}, \code{\link{assessment}}, \code{\link{boot}}, and 
@@ -50,15 +51,16 @@
 #' # Define the model using laavan sintax. Use a set of regression formulas defining 
 #' # firstly the structural model and then the measurement model
 #' model <- "
-#' # Structural model
-#' EcoW ~ Edu
-#' Health ~ Edu + EcoW
+# Structural model
+#' ECOW ~ EDU
+#' HEALTH ~ EDU + ECOW
 #'
 #' # Reflective measurement model
-#' Edu =~ O22 + O23 + O24 + O25aa + O26 + O_27_28 + O_27_28_AA
-#' EcoW =~ O41 + O44aa + O45 + O46aa + O42 + O43
-#' Health =~  O11F + O11M + O12MEAN_aa
+#' EDU =~ EDU1 + EDU2 + EDU3 + EDU4 + EDU5 + EDU6 + EDU7
+#' ECOW =~ ECOW1 + ECOW2 + ECOW3 + ECOW4 + ECOW5 + ECOW6
+#' HEALTH =~  HEALTH1 + HEALTH2 + HEALTH3
 #' "
+#'
 #' 
 #' # Apply qcpm
 #' well.qcpm = qcpm(model,province)

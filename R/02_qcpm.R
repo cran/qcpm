@@ -1,52 +1,51 @@
 #' @title QC-PM: Quantile Composite-based Path Modeling
 #'
 #' @description
-#' \code{qcpm}  estimates path model paramters by quantile composite-based  
-#' path modelling approach. 
+#' \code{qcpm} estimates path model parameters by quantile composite-based path modeling approach. 
 #'
 #' @details
 #' 
-#' Users can choose to estimate the model parameters for a specific quantile (tau) or to 
-#' use the default quantile values: tau = (0.25, 0,50, 0.75). It is also possible to fix 
-#' the quantile to 0.5 in the outer step of the iterative algorithm by using the parameter 
-#' \code{fix.quantile = TRUE} for handling the measurement invariance issue (Dolce et al. 2021; 
-#' Henseler et al. 2016). 
+#' Users can choose to estimate the model parameters for one or more specific quantiles (tau) of interest or 
+#' to use the default quantile values: tau = (0.25, 0,50, 0.75). If more than one specific quantile is selected, 
+#' the values must be defined as a numeric vector. It is also possible to fix the quantile to 
+#' 0.5 in the iterative procedure of the QC-PM algorithm by using the parameter \code{fix.quantile = TRUE} 
+#' for handling the measurement invariance issue (Dolce et al. 2021; Henseler et al. 2016).
+#' 
 #' 
 #'
 #' @param model A description of the user-specified model. The model is described using 
-#' the the lavaan sintax or cSEM sintax. Structural and measurement model are defined 
-#' enclosed between double quotes. The causal link between constructs is defined by 
-#' using the tilde ("~") operator. On the left-hand side of the operator there is the 
-#' dependent constructand on the right-hand sideconstruct there are the explanatory 
-#' constructs, separated by the ("+") operator. Regarding the measurement model, 
-#' each construct must be defined, listing their indicators and indicating the way 
-#' outer weights are computed in the iterative algorithm: mode Amode B. Mode A is 
-#' defined by using the special operator ("=~"); Mode B is defined by using the special 
-#' operator ("<~"). On the left-hand side of the operator, we have the cosntruct and on 
-#' the right-hand side we have the MVs, separated by the ("+") operator. Variables labels 
-#' cannot contain (".").
+#' the  \href{https://lavaan.ugent.be/tutorial/syntax1.html}{lavaan sintax}. Structural and 
+#' measurement model are defined enclosed between double quotes. 
+#' The directional link between constructs is defined by using the tilde ("~") operator. On the 
+#' left-hand side of the operator there is the dependent construct and on the right-hand side the 
+#' explanatory constructs, separated by the ("+") operator. As for the outer model, constructs are 
+#' defined by listing their corresponding MVs after the operator (“=~”) if Mode A is the choice 
+#' for computing the outer weights, or the operator(“<~”) if Mode B is chosen. On the left-hand side 
+#' of the operator, there is the construct and on the right-hand side the MVs separated by the ("+") 
+#' operator. Variable labels cannot contain (".").
+#' 
 #' 
 #' 
 #' @param data  is a data frame or a data matrix (statistical units x manifest variables).
 #' @param scheme is a string indicating the type of inner weighting scheme. It is equal to 
 #' \code{factorial} by default. Possible values are \code{centroid} or \code{factorial}.
-#' @param tau indicates the specific quantile that must be considered for the estimation. 
-#' It is equal to \code{NULL} by default. When defined, this value is used instead of the default 
-#' values (0.25, 0.5, 0.75).
-#' @param fix.quantile is a boolean. When equal to \code{TRUE}, the quantile used in the outer step of the 
-#' iterative algorithm is fixed to 0.5. It is used when measurement invariance is an issue. 
+#' @param tau indicates the specific quantile that must be considered for the estimation. It  
+#' is equal to NULL by default, using the quantile default values (0.25, 0.5, 0.75). When specified, 
+#' tau can be equal to a single value or to a vector, depending on the number of quantiles of interest.
+#' @param fix.quantile when equal to \code{TRUE}, the quantile used in the iterative procedure 
+#' of the QC-PM algorithm is fixed to 0.5. It is used when measurement invariance is an issue. 
 #' It is equal to \code{FALSE} by default.
-#' @param qcorr is a boolean. If it si equal to \code{TRUE}, loadings are estimated by using quantile 
-#' correlations. By default it is equal to \code{FALSE}.
+#' @param qcorr is a boolean. If it is equal to \code{TRUE}, loadings are estimated by using quantile 
+#' correlations. By default, it is equal to \code{FALSE}.
 #' @param tol is a decimal value indicating the tolerance criterion for the iterations (tol=0.00001
 #' by default). 
-#' @param maxiter integer indicating the maximum number of iterations (maxiter=100 by default). 
+#' @param maxiter is an integer indicating the maximum number of iterations (maxiter=100 by default). 
 #' 
 #' @return An object of class \code{qcpm}. 
-#' @return \item{outer.weights}{the outer weights estimated for each considered quantile.}
-#' @return \item{outer.loadings}{the outer loadings estimated for each considered quantile.}
-#' @return \item{path.coefficients}{the path coefficients estimated for each considered quantile.}
-#' @return \item{latent.scores}{list of the component scores for each considered quantile.}
+#' @return \item{outer.weights}{the outer weight estimates for each considered quantile.}
+#' @return \item{outer.loadings}{the outer loading estimates for each considered quantile.}
+#' @return \item{path.coefficients}{the path coefficient estimates for each considered quantile.}
+#' @return \item{latent.scores}{list of the composite scores for each considered quantile.}
 #' @return \item{data}{original dataset used for the analysis.}
 #' @return \item{model}{internal parameters related to the model estimation.}
 #' 
@@ -54,25 +53,25 @@
 #'
 #' 
 #' 
-#' @references Davino, C., Dolce, P., Taralli, S., Vistocco, D. (2020)  Composite-Based Path 
-#' Modeling for Conditional Quantiles Prediction. An Application to Assess 
-#' Health Differences at Local Level in a Well-Being Perspective. 
-#' \emph{Social Indicator Research}, pp. 1-30, doi:10.1007/s11205-020-02425-5.
+#' @references Davino, C., Dolce, P., Taralli, S. and Vistocco, D. (2020). Composite-based 
+#' path modeling for conditional quantiles prediction. An application to assess 
+#' health differences at local level in a well-being perspective.
+#' \emph{Social Indicators Research}, doi:10.1007/s11205-020-02425-5.
 #' 
-#' @references Davino, C., Vinzi, V.E. (2016) Quantile composite-based path
-#' modeling. \emph{Advansed Data Analysis and Classification}, \bold{10}, pp. 
-#' 491-520, doi:10.1007/s11634-015-0231-9.
+#' @references Davino, C. and Esposito Vinzi, V. (2016). Quantile composite-based path modeling. 
+#' \emph{Advances in Data Analysis and Classification}, \bold{10 (4)}, pp. 
+#' 491--520, doi:10.1007/s11634-015-0231-9.
 #' 
-#' @references Dolce, P., Davino, C., Vistocco, D. (2021) Quantile composite-based path modeling: 
-#' algorithms, properties and applications.\emph{Advansed Data Analysis and Classification},
+#' @references Dolce, P., Davino, C. and Vistocco, D. (2021). Quantile composite-based path modeling: 
+#' algorithms, properties and applications. \emph{Advances in Data Analysis and Classification},
 #' doi:10.1007/s11634-021-00469-0.
 #'
-#' @references Henseler J., Ringle C.M., Sarstedt M. (2016) Testingmeasurement invariance of 
-#' composites using partial least squares. \emph{Internationa Marketing Review}, \bold{33(3)}, pp. 
-#' 405-431, doi:10.1108/IMR-09-2014-0304
+#' @references Henseler J., Ringle, C.M. and Sarstedt, M. (2016). Testing measurement invariance of 
+#' composites using partial least squares. \emph{International Marketing Review}, \bold{33 (3)}, pp. 
+#' 405--431, doi:10.1108/IMR-09-2014-0304
 #' 
-#' @references Li G, Li Y, Tsai C (2014) Quantile correlations and quantile autoregressive modeling. 
-#' \emph{Journal of the American Statistical Association}, \bold{110(509)} pp.233-245, 
+#' @references Li, G., Li, Y. and Tsai, C. (2014). Quantile correlations and quantile autoregressive modeling. 
+#' \emph{Journal of the American Statistical Association}, \bold{110 (509)} pp. 246--261, 
 #' doi: 10.1080/01621459.2014.892007
 #' 
 #' @seealso \code{\link{summary}}, \code{\link{assessment}}, \code{\link{boot}}, and 
@@ -95,14 +94,14 @@
 #' # Define the model using laavan sintax. Use a set of regression formulas defining 
 #' # firstly the structural model and then the measurement model
 #' model <- "
-#' # Structural model
-#' EcoW ~ Edu
-#' Health ~ Edu + EcoW
+# Structural model
+#' ECOW ~ EDU
+#' HEALTH ~ EDU + ECOW
 #'
 #' # Reflective measurement model
-#' Edu =~ O22 + O23 + O24 + O25aa + O26 + O_27_28 + O_27_28_AA
-#' EcoW =~ O41 + O44aa + O45 + O46aa + O42 + O43
-#' Health =~  O11F + O11M + O12MEAN_aa
+#' EDU =~ EDU1 + EDU2 + EDU3 + EDU4 + EDU5 + EDU6 + EDU7
+#' ECOW =~ ECOW1 + ECOW2 + ECOW3 + ECOW4 + ECOW5 + ECOW6
+#' HEALTH =~  HEALTH1 + HEALTH2 + HEALTH3
 #' "
 #' 
 #' # Apply qcpm
@@ -151,6 +150,7 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   mvs.mean=colMeans(data)
   mvs.sd = apply(data,2,stats::sd)
   
+  data = scale(data)
   data.mod =  data[,mod$indicators]
   
   if(is.null(tau) == TRUE ) {tau_Alg = c(0.25,0.50,0.75)}
@@ -230,10 +230,13 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   
   rownames(ITER)    = tau_Alg
   colnames(ITER)    = "iterations"
-  rownames(WEIGHTS) = rownames(LOADINGS) = Nom.MVs
+  rownames(WEIGHTS) = rownames(LOADINGS) = get_names_MV(measurement)
+  
+  
   colnames(WEIGHTS) = colnames(LOADINGS) =colnames(PATHS)= tau_Alg
   rownames(PATHS)   = get_element(IDM)
   names(SCORES)     = Tau
+  
   
   model = list(qcpm.iteration = ITER,mvs.mean=mvs.mean,mvs.sd = mvs.sd,
                qcpm.outer.matrix = measurement, qcpm.outer.list=sets, tau=tau, 
@@ -253,9 +256,9 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   
   else if(fix.quantile == TRUE && is.null(tau)==FALSE){
     
-    outer.weights = as.matrix(WEIGHTS[,2])
-    outer.loadings = as.matrix(LOADINGS[,2])
-    path.coefficients = as.matrix(PATHS[,1])
+    outer.weights = as.matrix(WEIGHTS[,length(tau_Alg)])
+    outer.loadings = as.matrix(LOADINGS[,length(tau_Alg)])
+    path.coefficients = as.matrix(PATHS[,-length(tau_Alg)])
     
     colnames(outer.weights)=colnames(outer.loadings)=0.5
     colnames(path.coefficients)= tau
@@ -263,9 +266,10 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   }
   else if(fix.quantile == FALSE && is.null(tau)==FALSE){
     
-    outer.weights = as.matrix(WEIGHTS[,1])
-    outer.loadings = as.matrix(LOADINGS[,1])
-    path.coefficients = as.matrix(PATHS[,1])
+
+    outer.weights = as.matrix(WEIGHTS[,-length(tau_Alg)])
+    outer.loadings = as.matrix(LOADINGS[,-length(tau_Alg)])
+    path.coefficients = as.matrix(PATHS[,-length(tau_Alg)])
     
     colnames(outer.weights)=colnames(outer.loadings)=
       colnames(path.coefficients)= tau

@@ -2,21 +2,18 @@
 % Please edit documentation in R/07_thresholds.R
 \name{thresholds}
 \alias{thresholds}
-\title{Admisibles quantile thresholds}
+\title{Admissible quantile thresholds}
 \usage{
-thresholds(x, ...)
+thresholds(x)
 }
 \arguments{
-\item{x}{is a data frame that contains the manifest variables used to
-estimate the qcpm models}
-
-\item{\dots}{Further arguments passed on to \code{thresholds}.}
+\item{x}{is a data frame or a data matrix (statistical units x manifest variables).}
 }
 \value{
 A vector containing the maximum and minimum admisible quantile threshold values.
 }
 \description{
-\code{thresholds} provides the maximum and minimum admisible quantile threshold.
+\code{thresholds} thresholds provides the maximum and minimum admissible quantile threshold.
 }
 \details{
 The argument \code{x} is data frame that contains the manifest variables used to
@@ -36,17 +33,17 @@ thresholds(province)
 
 }
 \references{
-Davino, C., Dolce, P., Taralli, S., Vistocco, D. (2020)  Composite-Based Path 
-Modeling for Conditional Quantiles Prediction. An Application to Assess 
-Health Differences at Local Level in a Well-Being Perspective. 
-\emph{Social Indicator Research}, pp. 1-30, doi:10.1007/s11205-020-02425-5.
+Davino, C., Dolce, P., Taralli, S. and Vistocco, D. (2020) Composite-based 
+path modeling for conditional quantiles prediction. An application to assess 
+health differences at local level in a well-being perspective.
+\emph{Social Indicators Research}, doi:10.1007/s11205-020-02425-5.
 
-Davino, C., Vinzi, V.E. (2016) Quantile composite-based path
-modeling. \emph{Advansed Data Analysis and Classification}, \bold{10}, pp. 
-491–520, doi:10.1007/s11634-015-0231-9.
+Davino, C. and Esposito Vinzi, V. (2016) Quantile composite-based path modeling. 
+\emph{Advances in Data Analysis and Classification}, \bold{10 (4)}, pp. 
+491--520, doi:10.1007/s11634-015-0231-9.
 
-Dolce, P., Davino, C., Vistocco, D. (2021) Quantile composite-based path modeling: 
-algorithms, properties and applications.\emph{Advansed Data Analysis and Classification},
+Dolce, P., Davino, C. and Vistocco, D. (2021) Quantile composite-based path modeling: 
+algorithms, properties and applications. \emph{Advances in Data Analysis and Classification},
 doi:10.1007/s11634-021-00469-0.
 }
 \author{

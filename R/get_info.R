@@ -54,7 +54,7 @@ get_info	<-	function(data, inner, outer,modes, scheme, tau,tau_Alg,fix.quantile,
   if(is.null(tau) == TRUE ) {
     cat(paste("Quantile not specided and fixed by default:","\n"))
     cat(paste(tau_Alg),"\n")}
-  else{cat(paste("Quantile selected:",tau_Alg[1],"\n"))}
+  else{cat(paste("Quantile selected:",tau_Alg[-length(tau_Alg)],"\n"))}
   cat("\n")
   cat("---------------------------------------------------------------------------")
   cat("\n")

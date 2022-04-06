@@ -2,12 +2,12 @@
 % Please edit documentation in R/05_boot.R
 \name{boot}
 \alias{boot}
-\title{Inference on QC-PM model paramters (i.e., loadings and path coefficients)}
+\title{Inference on QC-PM model parameters (i.e., loadings and path coefficients)}
 \usage{
 boot(qcpm, conf.level = 0.95, br = 200)
 }
 \arguments{
-\item{qcpm}{is an  is an object of class \code{qcpm}}
+\item{qcpm}{is an object of class \code{qcpm}.}
 
 \item{conf.level}{is the value used to fix the confidence level to use for the 
 confidence interval. It is equal to 0.95 by default.}
@@ -16,22 +16,20 @@ confidence interval. It is equal to 0.95 by default.}
 \code{200} by default.}
 }
 \value{
-\item{boot.loadings}{the outer loadings significance for each considered quantile.}
+\item{boot.loadings}{the outer loading results for each considered quantile.}
 
-\item{boot.path}{the path coefficients significance for each considered 
-quantile.}
+\item{boot.path}{the path coefficient results for each considered quantile.}
 }
 \description{
-The function \code{boot} returns in order the estimates, 
-std. errors, t-values, p-values, and CI at a confidence level percent of loadings and the path 
-coefficients for each quantile.
+\code{boot} returns in order the estimates, std. errors, t-values, 
+p-values, and confidence interval at the specified confidence level 
+for loadings and path coefficients for each quantile.
 }
 \details{
-The argument \code{qcpm} is an  is an object of class \code{qcpm} 
-returned by \code{\link{qcpm}} function. Std. errors are calculated by using the 
-bootstrap method implemented by the  \code{tidy.rq} function of the broom package. When qcpm  
-parameter \code{fix.quantile} is equal to \code{TRUE}, the function \code{boot} returns only 
-loading results for the quantile 0.5.
+The argument \code{qcpm} is an object of class qcpm returned by \code{qcpm} function. 
+Std. errors are calculated by using the bootstrap method implemented in the 
+\code{tidy.rq} function of the broom package  (Robinson, 2014). When \code{fix.quantile=TRUE}, 
+the function boot returns only loading results for the quantile 0.5.
 }
 \examples{
 
@@ -45,15 +43,15 @@ data(province)
 # Define the model using laavan sintax. Use a set of regression formulas defining 
 # firstly the structural model and then the measurement model
 model <- "
-# Structural model
-EcoW ~ Edu
-Health ~ Edu + EcoW
+ECOW ~ EDU
+HEALTH ~ EDU + ECOW
 
 # Reflective measurement model
-Edu =~ O22 + O23 + O24 + O25aa + O26 + O_27_28 + O_27_28_AA
-EcoW =~ O41 + O44aa + O45 + O46aa + O42 + O43
-Health =~  O11F + O11M + O12MEAN_aa
+EDU =~ EDU1 + EDU2 + EDU3 + EDU4 + EDU5 + EDU6 + EDU7
+ECOW =~ ECOW1 + ECOW2 + ECOW3 + ECOW4 + ECOW5 + ECOW6
+HEALTH =~  HEALTH1 + HEALTH2 + HEALTH3
 "
+
 
 # Apply qcpm
 well.qcpm = qcpm(model,province)
@@ -62,18 +60,22 @@ well.boot
 
 }
 \references{
-Davino, C., Dolce, P., Taralli, S., Vistocco, D. (2020)  Composite-Based Path 
-Modeling for Conditional Quantiles Prediction. An Application to Assess 
-Health Differences at Local Level in a Well-Being Perspective. 
-\emph{Social Indicator Research}, pp. 1-30, doi:10.1007/s11205-020-02425-5.
+Davino, C., Dolce, P., Taralli, S. and Vistocco, D. (2020). Composite-based 
+path modeling for conditional quantiles prediction. An application to assess 
+health differences at local level in a well-being perspective.
+\emph{Social Indicators Research}, doi:10.1007/s11205-020-02425-5.
 
-Davino, C., Vinzi, V.E. (2016) Quantile composite-based path
-modeling. \emph{Advansed Data Analysis and Classification}, \bold{10}, pp. 
-491-520, doi:10.1007/s11634-015-0231-9.
+Davino, C. and Esposito Vinzi, V. (2016). Quantile composite-based path modeling. 
+\emph{Advances in Data Analysis and Classification}, \bold{10 (4)}, pp. 
+491--520, doi:10.1007/s11634-015-0231-9.
 
-Dolce, P., Davino, C., Vistocco, D. (2021) Quantile composite-based path modeling: 
-algorithms, properties and applications.\emph{Advansed Data Analysis and Classification},
+Dolce, P., Davino, C. and Vistocco, D. (2021). Quantile composite-based path modeling: 
+algorithms, properties and applications. \emph{Advances in Data Analysis and Classification},
 doi:10.1007/s11634-021-00469-0.
+
+Robinson, D. (2014). broom: An R package for converting statistical analysis 
+objects into tidy data frames. Available at 
+\url{https://CRAN.R-project.org/package=broom}.
 }
 \seealso{
 \code{\link{qcpm}}, \code{\link{assessment}}, \code{\link{summary}}, and 

@@ -17,64 +17,61 @@ qcpm(
 }
 \arguments{
 \item{model}{A description of the user-specified model. The model is described using 
-the the lavaan sintax or cSEM sintax. Structural and measurement model are defined 
-enclosed between double quotes. The causal link between constructs is defined by 
-using the tilde ("~") operator. On the left-hand side of the operator there is the 
-dependent constructand on the right-hand sideconstruct there are the explanatory 
-constructs, separated by the ("+") operator. Regarding the measurement model, 
-each construct must be defined, listing their indicators and indicating the way 
-outer weights are computed in the iterative algorithm: mode Amode B. Mode A is 
-defined by using the special operator ("=~"); Mode B is defined by using the special 
-operator ("<~"). On the left-hand side of the operator, we have the cosntruct and on 
-the right-hand side we have the MVs, separated by the ("+") operator. Variables labels 
-cannot contain (".").}
+the  \href{https://lavaan.ugent.be/tutorial/syntax1.html}{lavaan sintax}. Structural and 
+measurement model are defined enclosed between double quotes. 
+The directional link between constructs is defined by using the tilde ("~") operator. On the 
+left-hand side of the operator there is the dependent construct and on the right-hand side the 
+explanatory constructs, separated by the ("+") operator. As for the outer model, constructs are 
+defined by listing their corresponding MVs after the operator (“=~”) if Mode A is the choice 
+for computing the outer weights, or the operator(“<~”) if Mode B is chosen. On the left-hand side 
+of the operator, there is the construct and on the right-hand side the MVs separated by the ("+") 
+operator. Variable labels cannot contain (".").}
 
 \item{data}{is a data frame or a data matrix (statistical units x manifest variables).}
 
 \item{scheme}{is a string indicating the type of inner weighting scheme. It is equal to 
 \code{factorial} by default. Possible values are \code{centroid} or \code{factorial}.}
 
-\item{tau}{indicates the specific quantile that must be considered for the estimation. 
-It is equal to \code{NULL} by default. When defined, this value is used instead of the default 
-values (0.25, 0.5, 0.75).}
+\item{tau}{indicates the specific quantile that must be considered for the estimation. It
+is equal to NULL by default, using the quantile default values (0.25, 0.5, 0.75). When specified, 
+tau can be equal to a single value or to a vector, depending on the number of quantiles of interest.}
 
-\item{fix.quantile}{is a boolean. When equal to \code{TRUE}, the quantile used in the outer step of the 
-iterative algorithm is fixed to 0.5. It is used when measurement invariance is an issue. 
+\item{fix.quantile}{when equal to \code{TRUE}, the quantile used in the iterative procedure 
+of the QC-PM algorithm is fixed to 0.5. It is used when measurement invariance is an issue. 
 It is equal to \code{FALSE} by default.}
 
-\item{qcorr}{is a boolean. If it si equal to \code{TRUE}, loadings are estimated by using quantile 
-correlations. By default it is equal to \code{FALSE}.}
+\item{qcorr}{is a boolean. If it is equal to \code{TRUE}, loadings are estimated by using quantile 
+correlations. By default, it is equal to \code{FALSE}.}
 
 \item{tol}{is a decimal value indicating the tolerance criterion for the iterations (tol=0.00001
 by default).}
 
-\item{maxiter}{integer indicating the maximum number of iterations (maxiter=100 by default).}
+\item{maxiter}{is an integer indicating the maximum number of iterations (maxiter=100 by default).}
 }
 \value{
 An object of class \code{qcpm}.
 
-\item{outer.weights}{the outer weights estimated for each considered quantile.}
+\item{outer.weights}{the outer weight estimates for each considered quantile.}
 
-\item{outer.loadings}{the outer loadings estimated for each considered quantile.}
+\item{outer.loadings}{the outer loading estimates for each considered quantile.}
 
-\item{path.coefficients}{the path coefficients estimated for each considered quantile.}
+\item{path.coefficients}{the path coefficient estimates for each considered quantile.}
 
-\item{latent.scores}{list of the component scores for each considered quantile.}
+\item{latent.scores}{list of the composite scores for each considered quantile.}
 
 \item{data}{original dataset used for the analysis.}
 
 \item{model}{internal parameters related to the model estimation.}
 }
 \description{
-\code{qcpm}  estimates path model paramters by quantile composite-based  
-path modelling approach.
+\code{qcpm} estimates path model parameters by quantile composite-based path modeling approach.
 }
 \details{
-Users can choose to estimate the model parameters for a specific quantile (tau) or to 
-use the default quantile values: tau = (0.25, 0,50, 0.75). It is also possible to fix 
-the quantile to 0.5 in the outer step of the iterative algorithm by using the parameter 
-\code{fix.quantile = TRUE} for handling the measurement invariance issue (Dolce et al. 2021; 
-Henseler et al. 2016).
+Users can choose to estimate the model parameters for one or more specific quantiles (tau) of interest or 
+to use the default quantile values: tau = (0.25, 0,50, 0.75). If more than one specific quantile is selected, 
+the values must be defined as a numeric vector. It is also possible to fix the quantile to 
+0.5 in the iterative procedure of the QC-PM algorithm by using the parameter \code{fix.quantile = TRUE} 
+for handling the measurement invariance issue (Dolce et al. 2021; Henseler et al. 2016).
 }
 \examples{
 
@@ -88,14 +85,13 @@ data(province)
 # Define the model using laavan sintax. Use a set of regression formulas defining 
 # firstly the structural model and then the measurement model
 model <- "
-# Structural model
-EcoW ~ Edu
-Health ~ Edu + EcoW
+ECOW ~ EDU
+HEALTH ~ EDU + ECOW
 
 # Reflective measurement model
-Edu =~ O22 + O23 + O24 + O25aa + O26 + O_27_28 + O_27_28_AA
-EcoW =~ O41 + O44aa + O45 + O46aa + O42 + O43
-Health =~  O11F + O11M + O12MEAN_aa
+EDU =~ EDU1 + EDU2 + EDU3 + EDU4 + EDU5 + EDU6 + EDU7
+ECOW =~ ECOW1 + ECOW2 + ECOW3 + ECOW4 + ECOW5 + ECOW6
+HEALTH =~  HEALTH1 + HEALTH2 + HEALTH3
 "
 
 # Apply qcpm
@@ -104,25 +100,25 @@ well.qcpm
 
 }
 \references{
-Davino, C., Dolce, P., Taralli, S., Vistocco, D. (2020)  Composite-Based Path 
-Modeling for Conditional Quantiles Prediction. An Application to Assess 
-Health Differences at Local Level in a Well-Being Perspective. 
-\emph{Social Indicator Research}, pp. 1-30, doi:10.1007/s11205-020-02425-5.
+Davino, C., Dolce, P., Taralli, S. and Vistocco, D. (2020). Composite-based 
+path modeling for conditional quantiles prediction. An application to assess 
+health differences at local level in a well-being perspective.
+\emph{Social Indicators Research}, doi:10.1007/s11205-020-02425-5.
 
-Davino, C., Vinzi, V.E. (2016) Quantile composite-based path
-modeling. \emph{Advansed Data Analysis and Classification}, \bold{10}, pp. 
-491-520, doi:10.1007/s11634-015-0231-9.
+Davino, C. and Esposito Vinzi, V. (2016). Quantile composite-based path modeling. 
+\emph{Advances in Data Analysis and Classification}, \bold{10 (4)}, pp. 
+491--520, doi:10.1007/s11634-015-0231-9.
 
-Dolce, P., Davino, C., Vistocco, D. (2021) Quantile composite-based path modeling: 
-algorithms, properties and applications.\emph{Advansed Data Analysis and Classification},
+Dolce, P., Davino, C. and Vistocco, D. (2021). Quantile composite-based path modeling: 
+algorithms, properties and applications. \emph{Advances in Data Analysis and Classification},
 doi:10.1007/s11634-021-00469-0.
 
-Henseler J., Ringle C.M., Sarstedt M. (2016) Testingmeasurement invariance of 
-composites using partial least squares. \emph{Internationa Marketing Review}, \bold{33(3)}, pp. 
-405-431, doi:10.1108/IMR-09-2014-0304
+Henseler J., Ringle, C.M. and Sarstedt, M. (2016). Testing measurement invariance of 
+composites using partial least squares. \emph{International Marketing Review}, \bold{33 (3)}, pp. 
+405--431, doi:10.1108/IMR-09-2014-0304
 
-Li G, Li Y, Tsai C (2014) Quantile correlations and quantile autoregressive modeling. 
-\emph{Journal of the American Statistical Association}, \bold{110(509)} pp.233-245, 
+Li, G., Li, Y. and Tsai, C. (2014). Quantile correlations and quantile autoregressive modeling. 
+\emph{Journal of the American Statistical Association}, \bold{110 (509)} pp. 246--261, 
 doi: 10.1080/01621459.2014.892007
 }
 \seealso{
