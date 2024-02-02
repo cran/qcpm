@@ -78,7 +78,7 @@
 boot <-  function(qcpm,conf.level=0.95,br=200)
 {
   
-  if (class(qcpm) != "qcpm") 
+  if (inherits(qcpm, "qcpm") == FALSE)
     stop("Argument 'qcpm' must be an object of class 'qcpm'")
   
   if(is.null(qcpm$model$tau)==TRUE) {tau=qcpm$model$tau_Alg} 
@@ -91,8 +91,18 @@ boot <-  function(qcpm,conf.level=0.95,br=200)
     
     scores= qcpm$latent.scores[names(qcpm$latent.scores)==as.character(tau[i])]
     
+  
     path_matrix = qcpm$model$qcpm.inner
+    
     Y_lvs = as.matrix(scores[[1]])
+    
+    if(sum(colSums(is.na(Y_lvs)))>0){
+      
+      Inference.path.summary[[length(Inference.path.summary)+1]]= NA
+      Inference.load.summary[[length(Inference.load.summary)+1]]= NA
+      next
+    }
+    else{
     
     lvs_names = colnames(path_matrix)
     endogenous = as.logical(rowSums(path_matrix))
@@ -131,7 +141,7 @@ boot <-  function(qcpm,conf.level=0.95,br=200)
     
     res_path = cbind(paths,std,tv,pv,low,upper)
     
-    rownames(res_path) = get_element(Path)
+    rownames(res_path) = get_element(path_matrix)
     colnames(res_path) = c("Estimate", "Std. Error", "t value",  "Pr(>|t|)",
                            paste("low ",conf.level,"%",sep=""), paste("upper ",conf.level,"%",sep=""))
     
@@ -188,7 +198,7 @@ boot <-  function(qcpm,conf.level=0.95,br=200)
     Inference.load.summary[[length(Inference.load.summary)+1]]=
       loadings = round(res_load,4)
     
-  }
+  }}
   
   names(Inference.path.summary) = tau
   names(Inference.load.summary) = tau
@@ -222,4 +232,4 @@ boot <-  function(qcpm,conf.level=0.95,br=200)
     list(boot.loadings=Inference.load.summary, boot.path = Inference.path.summary)
   }
   
-  }
+}

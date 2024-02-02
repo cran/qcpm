@@ -7,7 +7,7 @@
 get_names_MV(x)
 }
 \arguments{
-\item{path_matrix}{the matrix of path coefficients}
+\item{x}{the matrix of path coefficients}
 }
 \value{
 the path coefficients labels

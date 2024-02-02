@@ -23,34 +23,34 @@
 #'
 #' Manifest variables description for each latent variable:
 #'
-#'\itemize{
-#'\item{LV1} {Education and training} (\code{EDU})
-#'\itemize{
-#'\item{MV1 \code{EDU1}   (O.2.2)}: {people with at least upper secondary education level (25-64 years old)}
-#'\item{MV2 \code{EDU2}   (O.2.3)}: {people having completed tertiary education (30-34 years old)}
-#'\item{MV3 \code{EDU3}   (O.2.4)}: {first-time entry rate to university by cohort of upper secondary graduates}
-#'\item{MV4 \code{EDU4}   (O.2.5aa)}: {people not in education, employment or training (Neet)}
-#'\item{MV5 \code{EDU5}   (O.2.6)}: {ratio of people aged 25-64 years participating in formal 
+#'\describe{
+#'\item{LV1}{Education and training (\code{EDU})} 
+#'\describe{
+#'\item{MV1 \code{EDU1}(O.2.2):}{people with at least upper secondary education level (25-64 years old)}
+#'\item{MV2 \code{EDU2}(O.2.3):}{people having completed tertiary education (30-34 years old)}
+#'\item{MV3 \code{EDU3}(O.2.4):}{first-time entry rate to university by cohort of upper secondary graduates}
+#'\item{MV4 \code{EDU4}(O.2.5aa):}{people not in education, employment or training (Neet)}
+#'\item{MV5 \code{EDU5}(O.2.6):}{ratio of people aged 25-64 years participating in formal 
 #'or non-formal education to the total people aged 25-64 years}
-#'\item{MV6  \code{EDU6}  (O_2.7_2.8)}: {scores obtained in the tests of functional skills of the 
+#'\item{MV6 \code{EDU6}(O_2.7_2.8):}{scores obtained in the tests of functional skills of the 
 #'students in the II classes of upper secondary education}
-#'\item{MV7  \code{EDU7} (O_2.7_2.8_A)}: {Differences between males and females students in the level of 
+#'\item{MV7 \code{EDU7}(O_2.7_2.8_A):}{Differences between males and females students in the level of 
 #'numeracy and literacy}
 #'}
-#'\item{LV2} {Economic wellbeing} (\code{ECOW})
-#'\itemize{
-#'\item{MV8  \code{ECOW1} (O.4.1)}: {per capita disposable income}
-#'\item{MV9  \code{ECOW2} (O.4.4aa)}: {pensioners with low pension amount}
-#'\item{MV10  \code{ECOW3} (O.4.5)}: {per capita net wealth}
-#'\item{MV11  \code{ECOW4} (O.4.6aa)}: {rate of bad debts of the bank loans to families}
-#'\item{MV12  \code{ECOW5} (O.4.2)}: {average annual salary of employees}
-#'\item{MV13  \code{ECOW6} (O.4.3)}: {average annual amount of pension income per capita}
+#'\item{LV2}{Economic wellbeing (\code{ECOW})} 
+#'\describe{
+#'\item{MV8 \code{ECOW1}(O.4.1):}{per capita disposable income}
+#'\item{MV9 \code{ECOW2}(O.4.4aa):}{pensioners with low pension amount}
+#'\item{MV10 \code{ECOW3}(O.4.5):}{per capita net wealth}
+#'\item{MV11 \code{ECOW4}(O.4.6aa):}{rate of bad debts of the bank loans to families}
+#'\item{MV12 \code{ECOW5}(O.4.2):}{average annual salary of employees}
+#'\item{MV13 \code{ECOW6}(O.4.3):}{average annual amount of pension income per capita}
 #'}
-#'#'\item{LV3} {Health} (\code{HEALTH})
-#'\itemize{
-#'\item{MV14 \code{HEALTH1} (O.1.1F)}: {life expectancy at birth of females}
-#'\item{MV15 \code{HEALTH2} (O.1.1M)}: {life expectancy at birth of males}
-#'\item{MV16 \code{HEALTH3} (O.1.2.MEAN_aa)}: {infant mortality rate}
+#'#'\item{LV3}{Health (\code{HEALTH})} 
+#'\describe{
+#'\item{MV14 \code{HEALTH1}(O.1.1F):}{life expectancy at birth of females}
+#'\item{MV15 \code{HEALTH2}(O.1.1M):}{life expectancy at birth of males}
+#'\item{MV16 \code{HEALTH3}(O.1.2.MEAN_aa):}{infant mortality rate}
 #'}
 #'}
 #'
@@ -74,13 +74,13 @@
 #' Cham: Springer.  
 #'
 #'@references ISTAT. (2019a). Misure del Benessere dei territori. Tavole di dati. Rome, 
-#'Istat. \url{https://www.istat.it/it/archivio/230627}.
+#'Istat. 
 #'
 #'@references ISTAT. (2019b). Le differenze territoriali di benessere - Una lettura a livello 
-#'provinciale. Rome, Istat.\url{https://www.istat.it/it/archivio/233243}.
+#'provinciale. Rome, Istat.
 #'
 #'@references ISTAT. (2018). Bes report 2018: Equitable and sustainable well-being in Italy. 
-#'Rome, Istat. \url{https://www.istat.it/en/archivio/225140}.
+#'Rome, Istat. 
 #'
 #' @keywords datasets
 NULL

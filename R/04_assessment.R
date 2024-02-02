@@ -106,7 +106,7 @@
 #'
 assessment = function (qcpm){
   
-  if (class(qcpm) != "qcpm") 
+  if (inherits(qcpm, "qcpm") == FALSE)
     stop("Argument 'qcpm' must be an object of class 'qcpm'")
   
   if(is.null(qcpm$model$tau)==TRUE) {tau_outer=qcpm$model$tau_Alg} 
@@ -124,7 +124,11 @@ assessment = function (qcpm){
   for (k in 1: length(tau_outer)){
     comm_mv=NULL  
     
+
     scores= qcpm$latent.scores[names(qcpm$latent.scores)==as.character(tau_outer[k])][[1]]
+    
+    if(sum(colSums(is.na(scores)))>0) next
+    
     data.ass = cbind(qcpm$data, scores)
     out.mv.names=list()
     ################################################################ communalities
@@ -155,6 +159,8 @@ assessment = function (qcpm){
   for (k in 1: length(tau_outer)){
     
     scores= qcpm$latent.scores[names(qcpm$latent.scores)==as.character(tau_outer[k])][[1]]
+    
+    if(sum(colSums(is.na(scores)))>0) next
     data.ass = cbind(qcpm$data, scores)
     
     Y_lvs = as.matrix(scores)

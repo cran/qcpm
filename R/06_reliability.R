@@ -68,7 +68,7 @@
 #'
 reliability <- function(qcpm)
 {
-  if (class(qcpm) != "qcpm") 
+  if (inherits(qcpm, "qcpm") == FALSE)
     stop("Argument 'qcpm' must be an object of class 'qcpm'")
   
   DM = qcpm$data

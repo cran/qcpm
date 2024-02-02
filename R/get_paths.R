@@ -26,14 +26,13 @@ get_paths <-  function(path_matrix, Y_lvs, tau, full=TRUE,...)
     # index for indep LVs
     k2 = which(path_matrix[k1,] == 1)
     # elimnate warnings
-    path_rq= suppressWarnings(summary(quantreg::rq(Y_lvs[,k1] ~ Y_lvs[,k2],tau)))
-    Path[k1,k2] = path_rq$coef[-1,1]
+    path_rq= suppressWarnings((quantreg::rq(Y_lvs[,k1] ~ Y_lvs[,k2],tau)))
+    Path[k1,k2] = path_rq$coef[-1]
     
   }
   
   paths = as.matrix(Path[which(path_matrix==1)])
-  rownames(paths) = get_element(Path)
-  
+
   # output
   paths
 }

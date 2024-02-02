@@ -30,7 +30,7 @@ get_element	<-	function(path_matrix)
 #' 
 #' @details
 #' Internal function. \code{get_element} is called by \code{get_paths} 
-#' @param path_matrix the matrix of path coefficients 
+#' @param x the matrix of path coefficients 
 #' @return the path coefficients labels
 #' @keywords internal
 #' @export

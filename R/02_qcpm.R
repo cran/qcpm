@@ -155,6 +155,7 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   
   if(is.null(tau) == TRUE ) {tau_Alg = c(0.25,0.50,0.75)}
   else {tau_Alg = c(tau,0.5)}
+  
   get_info(data, inner, outer, modes,scheme, tau,tau_Alg,fix.quantile)
   IDM = inner
   sets = outer
@@ -175,7 +176,8 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   WEIGHTS = matrix(NA,mvs,length(tau_Alg))
   LOADINGS = matrix(NA,mvs,length(tau_Alg))
   PATHS  = matrix(NA,sum(IDM),length(tau_Alg))
-  SCORES = list()
+  #SCORES = list()
+  scores = array(NA, dim=c(nrow(data),sum(IDM),length(tau_Alg)))
   Tau=NULL
   
   for (h in 1:length(tau_Alg)){ 
@@ -191,10 +193,10 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
                                                      method="br",
                                                      fix.quantile,
                                                      tol,
-                                                     maxiter) 
-    
-    
-    if (any(is.na(c(get_internal$W.DIF)))==TRUE) next
+                                                    maxiter) 
+  
+
+    if (any(is.na(c(get_internal$Wbeta1)))==TRUE) next
     
     if (utils::tail(get_internal$W.DIF,1)>0.001) {
       warning(paste(" when tau =",tau_Alg[h])," the algorithm reached the maximum number of iterations" )}
@@ -205,7 +207,12 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
     LVs = scale(LVs)*sqrt((n-1)/n)
     colnames(LVs) = lvs.names
     
+
+    #if(any(get_paths(IDM,Y_lvs=LVs,tau = tau_Alg[h])==0)==TRUE) next
+    
     load = get_loadings(data.mod, sets, mvs, lvs, IDM, LV=LVs, tau=tau_Alg[h],qcorr)
+    
+
     
     LOADINGS[,h] = round(as.matrix(rowSums(load)),4)
     ITER[h,] = rev(get_internal$ITER)[1]
@@ -218,25 +225,30 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
     
     LVs = sweep(LVs, 2, get_internal$Intercept, "+")
     
-    SCORES[[length(SCORES)+1]] = as.data.frame(LVs)
-    
+    #SCORES[[length(SCORES)+1]] = as.data.frame(LVs)
+     
+    scores[,,h]=LVs
   }
   
-  if(is.null(Tau)==TRUE) {
-    cat("\n")
-    print("no admisible solution found")
-    cat("\n")
-  }
-  
+
   rownames(ITER)    = tau_Alg
   colnames(ITER)    = "iterations"
   rownames(WEIGHTS) = rownames(LOADINGS) = get_names_MV(measurement)
   
-  
   colnames(WEIGHTS) = colnames(LOADINGS) =colnames(PATHS)= tau_Alg
   rownames(PATHS)   = get_element(IDM)
-  names(SCORES)     = Tau
   
+  SCORES =list()
+  for(i in 1:length(tau_Alg)){
+    score = as.data.frame(scores[,,i])
+    colnames(score)=lvs.names
+    SCORES[[length(SCORES)+1]] = score
+  }
+  
+  names(SCORES)     = tau_Alg
+  
+  if(sum(colSums(is.na(WEIGHTS)))>0) {
+    warning(" tau = ",paste(names(which(colSums(is.na(WEIGHTS))>0))," ")," produce inadmissible results")}
   
   model = list(qcpm.iteration = ITER,mvs.mean=mvs.mean,mvs.sd = mvs.sd,
                qcpm.outer.matrix = measurement, qcpm.outer.list=sets, tau=tau, 
@@ -244,6 +256,7 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
                qcpm.inner = inner,fix.quantile=fix.quantile,
                outer.weights2 = as.matrix(WEIGHTS))
   
+ 
   
   if(fix.quantile == TRUE && is.null(tau)==TRUE){
     
@@ -283,6 +296,7 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
     path.coefficients = PATHS
     latent.scores = SCORES
   }
+  
   
 
   res = list( outer.weights = outer.weights, 
