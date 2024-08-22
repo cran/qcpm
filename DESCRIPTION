@@ -1,6 +1,6 @@
 Package: qcpm
 Title: Quantile Composite Path Modeling
-Version: 0.3
+Version: 0.4
 Authors@R: c(
     person("Giuseppe", "Lamberti", email = "giuseppelamb@hotmail.com", role = c("aut", "cre")),
     person("Cristina", "Davino", email = "cdavino@unina.it",  role = "ctb"),
@@ -16,11 +16,11 @@ LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2024-02-02 22:17:52 UTC; giuseppelamberti
+Packaged: 2024-08-21 18:51:23 UTC; giuseppelamberti
 Author: Giuseppe Lamberti [aut, cre],
   Cristina Davino [ctb],
   Pasquale Dolce [ctb],
   Domenico Vistocco [ctb]
 Maintainer: Giuseppe Lamberti <giuseppelamb@hotmail.com>
 Repository: CRAN
-Date/Publication: 2024-02-02 22:30:02 UTC
+Date/Publication: 2024-08-22 06:20:02 UTC

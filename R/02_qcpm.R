@@ -176,8 +176,7 @@ qcpm = function(model, data, scheme="factorial", tau = NULL,fix.quantile=FALSE,q
   WEIGHTS = matrix(NA,mvs,length(tau_Alg))
   LOADINGS = matrix(NA,mvs,length(tau_Alg))
   PATHS  = matrix(NA,sum(IDM),length(tau_Alg))
-  #SCORES = list()
-  scores = array(NA, dim=c(nrow(data),sum(IDM),length(tau_Alg)))
+  scores = array(NA, dim=c(nrow(data),lvs,length(tau_Alg)))
   Tau=NULL
   
   for (h in 1:length(tau_Alg)){ 
